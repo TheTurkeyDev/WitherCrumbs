@@ -3,12 +3,24 @@ package turkey.witherCrumbs.info;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.item.ItemStack;
+import turkey.witherCrumbs.items.WitherCrumbsItems;
+
 public class CelebrityWitherRegistry
 {
 	private static Map<String, CelebrityWitherInfo> info = new HashMap<String, CelebrityWitherInfo>();
-	
-	public static void addCelebrityInfo()
+
+	public static CelebrityWitherInfo addCelebrityInfo(String name, ItemStack drop, boolean customSounds)
 	{
-		
+		CelebrityWitherInfo newCelebrity = new CelebrityWitherInfo(name, drop, customSounds);
+		info.put(name, newCelebrity);
+		return newCelebrity;
+	}
+
+	public static CelebrityWitherInfo getCelebrityInfo(String name)
+	{
+		if(info.containsKey(name))
+			return info.get(name);
+		return addCelebrityInfo(name, new ItemStack(WitherCrumbsItems.crumbStar, 1), false);
 	}
 }

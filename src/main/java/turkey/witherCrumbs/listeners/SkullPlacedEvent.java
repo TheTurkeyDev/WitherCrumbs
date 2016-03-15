@@ -41,7 +41,6 @@ public class SkullPlacedEvent
 
 			for(l = -2; l <= 0; ++l)
 			{
-				// System.out.println(this.func_149966_a(world, tileSkull, blockX, blockY, blockZ + l, 1));
 				if(world.getBlock(blockX, blockY - 1, blockZ + l) == Blocks.soul_sand && world.getBlock(blockX, blockY - 1, blockZ + l + 1) == Blocks.soul_sand && world.getBlock(blockX, blockY - 2, blockZ + l + 1) == Blocks.soul_sand && world.getBlock(blockX, blockY - 1, blockZ + l + 2) == Blocks.soul_sand && this.func_149966_a(world, tileSkull, blockX, blockY, blockZ + l) && this.func_149966_a(world, tileSkull, blockX, blockY, blockZ + l + 1) && this.func_149966_a(world, tileSkull, blockX, blockY, blockZ + l + 2))
 				{
 					world.setBlockMetadataWithNotify(blockX, blockY, blockZ + l, 8, 2);
@@ -59,7 +58,6 @@ public class SkullPlacedEvent
 					{
 						entitywither = new EntityHumanWither(world);
 						entitywither.setProfile(tileSkull.func_152108_a());
-						System.out.println(entitywither);
 						entitywither.setLocationAndAngles((double) blockX + 0.5D, (double) blockY - 1.45D, (double) (blockZ + l) + 1.5D, 90.0F, 0.0F);
 						entitywither.renderYawOffset = 90.0F;
 						entitywither.func_82206_m();
@@ -80,9 +78,7 @@ public class SkullPlacedEvent
 					}
 
 					for(i1 = 0; i1 < 120; ++i1)
-					{
 						world.spawnParticle("snowballpoof", (double) blockX + world.rand.nextDouble(), (double) (blockY - 2) + world.rand.nextDouble() * 3.9D, (double) (blockZ + l + 1) + world.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
-					}
 
 					world.notifyBlockChange(blockX, blockY, blockZ + l, Block.getBlockById(0));
 					world.notifyBlockChange(blockX, blockY, blockZ + l + 1, Block.getBlockById(0));
@@ -114,7 +110,6 @@ public class SkullPlacedEvent
 					{
 						entitywither = new EntityHumanWither(world);
 						entitywither.setProfile(tileSkull.func_152108_a());
-						System.out.println(entitywither);
 						entitywither.setLocationAndAngles((double) (blockX + l) + 1.5D, (double) blockY - 1.45D, (double) blockZ + 0.5D, 0.0F, 0.0F);
 						entitywither.func_82206_m();
 						entitywither.setCustomNameTag(tileSkull.func_152108_a().getName());
@@ -134,9 +129,7 @@ public class SkullPlacedEvent
 					}
 
 					for(i1 = 0; i1 < 120; ++i1)
-					{
 						world.spawnParticle("snowballpoof", (double) (blockX + l + 1) + world.rand.nextDouble(), (double) (blockY - 2) + world.rand.nextDouble() * 3.9D, (double) blockZ + world.rand.nextDouble(), 0.0D, 0.0D, 0.0D);
-					}
 
 					world.notifyBlockChange(blockX + l, blockY, blockZ, Block.getBlockById(0));
 					world.notifyBlockChange(blockX + l + 1, blockY, blockZ, Block.getBlockById(0));
@@ -162,9 +155,7 @@ public class SkullPlacedEvent
 
 			TileEntity tileentity = p_149966_1_.getTileEntity(p_149966_2_, p_149966_3_, p_149966_4_);
 			if(tileentity != null && tileentity instanceof TileEntityBlockSkull)
-			{
 				return ((TileEntityBlockSkull) tileentity).func_152108_a().getName().equalsIgnoreCase(placed.func_152108_a().getName());
-			}
 			return false;
 		}
 	}

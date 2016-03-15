@@ -14,7 +14,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
+import turkey.witherCrumbs.config.ConfigLoader;
+import turkey.witherCrumbs.config.CustomWitherLoader;
 import turkey.witherCrumbs.entities.EntityHumanWither;
+import turkey.witherCrumbs.items.WitherCrumbsItems;
 import turkey.witherCrumbs.listeners.SkullPlacedEvent;
 import turkey.witherCrumbs.proxy.CommonProxy;
 
@@ -43,6 +46,9 @@ public class WitherCrumbsCore
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
 
 		proxy.registerRenderings();
+		
+		WitherCrumbsItems.initItems();
+		
 
 		EntityList.stringToClassMapping.put("Wither_Crumb", EntityHumanWither.class);
 		int id = EntityRegistry.findGlobalUniqueEntityId();
@@ -56,12 +62,12 @@ public class WitherCrumbsCore
 	public void load(FMLPreInitializationEvent event)
 	{
 		logger = event.getModLog();
-
+		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile(), event.getSourceFile());
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-
+		CustomWitherLoader.instance.loadCustomWithers();
 	}
 }
