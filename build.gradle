@@ -17,12 +17,17 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
+version = "${mc_version}-${mod_version}"
 group= "turkey.witherCrumbs"
 archivesBaseName = "witherCrumbs"
 
 minecraft {
-   version = "1.7.10-10.13.4.1558-1.7.10"
+	version = "${mc_version}-${forge_version}"
+	
+	replace "@VERSION@", project.version
+    replaceIn "WitherCrumbsCore.java"
+    replaceIn "mcmod.info"
+    
     runDir = "eclipse"
 }
 

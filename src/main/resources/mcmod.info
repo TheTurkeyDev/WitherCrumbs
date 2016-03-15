@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "withercrumbs",
+  "name": "Wither Crumbs",
+  "description": "An addon for Headcrumbs that adds custom user based withers",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Turkey2349"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

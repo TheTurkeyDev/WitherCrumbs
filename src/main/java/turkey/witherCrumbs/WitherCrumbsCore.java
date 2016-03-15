@@ -18,7 +18,7 @@ import turkey.witherCrumbs.entities.EntityHumanWither;
 import turkey.witherCrumbs.listeners.SkullPlacedEvent;
 import turkey.witherCrumbs.proxy.CommonProxy;
 
-@Mod(modid = WitherCrumbsCore.MODID, version = WitherCrumbsCore.VERSION, name = WitherCrumbsCore.NAME)
+@Mod(modid = WitherCrumbsCore.MODID, version = WitherCrumbsCore.VERSION, name = WitherCrumbsCore.NAME, dependencies = "required-after:headcrumbs")
 public class WitherCrumbsCore
 {
 	public static final String MODID = "withercrumbs";
