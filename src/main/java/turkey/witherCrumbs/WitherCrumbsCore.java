@@ -31,7 +31,7 @@ public class WitherCrumbsCore
 	@Instance(value = MODID)
 	public static WitherCrumbsCore instance;
 
-	@SidedProxy(clientSide = "turkey.witherCrumbs.proxy.ClientProxy", serverSide = "turkey.witherCrumbs.CommonProxy")
+	@SidedProxy(clientSide = "turkey.witherCrumbs.proxy.ClientProxy", serverSide = "turkey.witherCrumbs.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	public static Logger logger;
