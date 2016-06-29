@@ -10,13 +10,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import turkey.witherCrumbs.WitherCrumbsCore;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
 import turkey.witherCrumbs.items.WitherCrumbsItems;
@@ -63,7 +63,7 @@ public class CustomWitherLoader
 				try
 				{
 					String jsonEdited = this.removedKeyQuotes(jsonRaw);
-					NBTBase nbtbase = JsonToNBT.func_150315_a(jsonEdited);
+					NBTBase nbtbase = JsonToNBT.getTagFromJson(jsonEdited);
 					if(!(nbtbase instanceof NBTTagCompound))
 					{
 						WitherCrumbsCore.logger.log(Level.ERROR, "Failed to convert the JSON to NBT for: " + jsonRaw);
@@ -77,7 +77,7 @@ public class CustomWitherLoader
 						{
 							String mod = idString.substring(0, idString.indexOf(":"));
 							String itemName = idString.substring(idString.indexOf(":") + 1);
-							int id = Item.getIdFromItem(GameRegistry.findItem(mod, itemName));
+							int id = Item.getIdFromItem(Item.REGISTRY.getObject(new ResourceLocation(mod, itemName)));
 							nbtcomp.setInteger("id", id);
 						}
 						stack = ItemStack.loadItemStackFromNBT(nbtcomp);

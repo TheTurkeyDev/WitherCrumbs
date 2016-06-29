@@ -2,18 +2,18 @@ package turkey.witherCrumbs;
 
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import turkey.witherCrumbs.config.ConfigLoader;
 import turkey.witherCrumbs.config.CustomWitherLoader;
 import turkey.witherCrumbs.entities.EntityHumanWither;
@@ -54,7 +54,6 @@ public class WitherCrumbsCore
 		int id = EntityRegistry.findGlobalUniqueEntityId();
 		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", id, instance, 512, 1, true);
 
-		FMLCommonHandler.instance().bus().register(new SkullPlacedEvent());
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
 	}
 

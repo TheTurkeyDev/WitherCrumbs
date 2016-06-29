@@ -4,7 +4,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 import turkey.witherCrumbs.entities.EntityHumanWither;
 
 public class ModelHumanWither extends ModelBase
@@ -97,8 +97,8 @@ public class ModelHumanWither extends ModelBase
 
         for (int i = 1; i < 3; ++i)
         {
-            this.field_82904_b[i].rotateAngleY = (entitywither.func_82207_a(i - 1) - p_78086_1_.renderYawOffset) / (180F / (float)Math.PI);
-            this.field_82904_b[i].rotateAngleX = entitywither.func_82210_r(i - 1) / (180F / (float)Math.PI);
+            this.field_82904_b[i].rotateAngleY = (entitywither.getHeadYRotation(i - 1) - p_78086_1_.renderYawOffset) / (180F / (float)Math.PI);
+            this.field_82904_b[i].rotateAngleX = entitywither.getHeadXRotation(i - 1) / (180F / (float)Math.PI);
         }
     }
 }

@@ -9,6 +9,9 @@ import ganymedes01.headcrumbs.utils.UsernameUtils;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import turkey.witherCrumbs.config.WitherCrumbSettings;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
@@ -17,7 +20,7 @@ public class EntityHumanWither extends EntityWither
 {
 	private GameProfile profile;
 
-	private static final int NAME = 21;
+	private static final DataParameter<String> NAME = EntityDataManager.<String> createKey(EntityHumanWither.class, DataSerializers.STRING);
 
 	public EntityHumanWither(World p_i1701_1_)
 	{
@@ -28,7 +31,7 @@ public class EntityHumanWither extends EntityWither
 	protected void entityInit()
 	{
 		super.entityInit();
-		getDataWatcher().addObject(NAME, "");
+		super.dataManager.register(NAME, "");
 	}
 
 	/**
@@ -37,8 +40,8 @@ public class EntityHumanWither extends EntityWither
 	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
 	{
 		if(WitherCrumbSettings.dropNetherStar)
-			this.dropItem(Items.nether_star, 1);
-		
+			this.dropItem(Items.NETHER_STAR, 1);
+
 		this.entityDropItem(CelebrityWitherRegistry.getCelebrityInfo(this.profile.getName()).getDropStack(), 0);
 	}
 
@@ -80,14 +83,14 @@ public class EntityHumanWither extends EntityWither
 
 	public String getUsername()
 	{
-		String username = getDataWatcher().getWatchableObjectString(NAME);
+		String username = super.dataManager.get(NAME);
 		if(StringUtils.isBlank(username))
-			getDataWatcher().updateObject(NAME, username = EntityHuman.getRandomUsername(rand));
+			super.dataManager.set(NAME,  username = EntityHuman.getRandomUsername(rand));
 		return username;
 	}
 
 	public void setUsername(String name)
 	{
-		getDataWatcher().updateObject(NAME, UsernameUtils.getFixedUsername(name));
+		super.dataManager.set(NAME,  UsernameUtils.getFixedUsername(name));
 	}
 }
