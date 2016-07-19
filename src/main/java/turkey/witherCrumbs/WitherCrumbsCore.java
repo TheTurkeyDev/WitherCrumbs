@@ -2,9 +2,7 @@ package turkey.witherCrumbs;
 
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.entity.EntityList;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -36,7 +34,6 @@ public class WitherCrumbsCore
 
 	public static Logger logger;
 
-	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
@@ -49,10 +46,7 @@ public class WitherCrumbsCore
 		
 		WitherCrumbsItems.initItems();
 		
-
-		EntityList.stringToClassMapping.put("Wither_Crumb", EntityHumanWither.class);
-		int id = EntityRegistry.findGlobalUniqueEntityId();
-		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", id, instance, 512, 1, true);
+		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", 0, instance, 512, 1, true);
 
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
 	}

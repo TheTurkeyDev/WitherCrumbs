@@ -1,23 +1,25 @@
 package turkey.witherCrumbs.items;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import ganymedes01.headcrumbs.Headcrumbs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import turkey.witherCrumbs.WitherCrumbsCore;
 
 public class CrumbStar extends ItemFood
 {
+	private String name;
 	public CrumbStar(String name)
 	{
 		super(0, 0, false);
+		this.name = name;
 		this.setUnlocalizedName(name);
-		this.setTextureName(WitherCrumbsCore.MODID + ":" + name.toLowerCase());
+		this.setRegistryName(WitherCrumbsCore.MODID + ":" + name.toLowerCase());
 		this.setCreativeTab(Headcrumbs.tab);
 	}
 
@@ -25,7 +27,7 @@ public class CrumbStar extends ItemFood
 	{
 		if(!world.isRemote)
 		{
-			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 150, 1));
+			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 150, 1));
 			player.getFoodStats().addStats(20, 20);
 		}
 	}
@@ -34,5 +36,10 @@ public class CrumbStar extends ItemFood
 	public boolean hasEffect(ItemStack stack)
 	{
 		return true;
+	}
+
+	public String getItemName()
+	{
+		return name;
 	}
 }

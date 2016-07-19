@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.mojang.authlib.GameProfile;
 
 import ganymedes01.headcrumbs.entity.EntityHuman;
-import ganymedes01.headcrumbs.utils.UsernameUtils;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,6 +90,6 @@ public class EntityHumanWither extends EntityWither
 
 	public void setUsername(String name)
 	{
-		super.dataManager.set(NAME,  UsernameUtils.getFixedUsername(name));
+		super.dataManager.set(NAME, name);
 	}
 }
