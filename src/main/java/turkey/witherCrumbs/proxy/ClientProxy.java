@@ -20,10 +20,12 @@ public class ClientProxy extends CommonProxy
 
 	public void registerRenderings()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EntityHumanWither.class, new IRenderFactory<EntityHumanWither>() {
-
+		System.out.println("here");
+		RenderingRegistry.registerEntityRenderingHandler(EntityHumanWither.class, new IRenderFactory<EntityHumanWither>()
+		{
 			@Override
-			public Render<? super EntityHumanWither> createRenderFor(RenderManager manager) {
+			public Render<? super EntityHumanWither> createRenderFor(RenderManager manager)
+			{
 				return new RenderHumanWither(manager);
 			}
 		});

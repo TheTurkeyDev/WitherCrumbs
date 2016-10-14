@@ -41,13 +41,9 @@ public class WitherCrumbsCore
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
-
-		proxy.registerRenderings();
 		
 		WitherCrumbsItems.initItems();
 		
-		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", 0, instance, 512, 1, true);
-
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
 	}
 
@@ -56,6 +52,10 @@ public class WitherCrumbsCore
 	{
 		logger = event.getModLog();
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile(), event.getSourceFile());
+		
+		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", 0, instance, 512, 1, true);
+
+		proxy.registerRenderings();
 	}
 
 	@EventHandler

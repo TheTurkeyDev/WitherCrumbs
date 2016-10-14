@@ -3,21 +3,34 @@ package turkey.witherCrumbs.entities;
 import org.apache.commons.lang3.StringUtils;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
+import ganymedes01.headcrumbs.api.IHumanEntity;
 import ganymedes01.headcrumbs.entity.EntityHuman;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import turkey.witherCrumbs.WitherCrumbsCore;
 import turkey.witherCrumbs.config.WitherCrumbSettings;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
 
-public class EntityHumanWither extends EntityWither
+public class EntityHumanWither extends EntityWither implements IHumanEntity
 {
 	private GameProfile profile;
+	private ResourceLocation skin;
+	private boolean skinAvailable = false;
 
 	private static final DataParameter<String> NAME = EntityDataManager.<String> createKey(EntityHumanWither.class, DataSerializers.STRING);
 
@@ -67,6 +80,14 @@ public class EntityHumanWither extends EntityWither
 		setUsername(username);
 	}
 
+	public ITextComponent getDisplayName()
+	{
+		TextComponentString textcomponentstring = new TextComponentString(this.getUsername());
+		textcomponentstring.getStyle().setHoverEvent(this.getHoverEvent());
+		textcomponentstring.getStyle().setInsertion(this.getCachedUniqueIdString());
+		return textcomponentstring;
+	}
+
 	public GameProfile getProfile()
 	{
 		if(profile == null)
@@ -78,18 +99,108 @@ public class EntityHumanWither extends EntityWither
 	{
 		this.profile = profile;
 		this.setUsername(profile.getName());
+		BossInfoServer bossInfo;
+		if(WitherCrumbsCore.VERSION.equalsIgnoreCase("@version@"))
+			bossInfo = ObfuscationReflectionHelper.getPrivateValue(EntityWither.class, this, "bossInfo");
+		else
+			bossInfo = ObfuscationReflectionHelper.getPrivateValue(EntityWither.class, this, "buttonList");
+		bossInfo.setName(this.getDisplayName());
 	}
 
 	public String getUsername()
 	{
 		String username = super.dataManager.get(NAME);
 		if(StringUtils.isBlank(username))
-			super.dataManager.set(NAME,  username = EntityHuman.getRandomUsername(rand));
+			super.dataManager.set(NAME, username = EntityHuman.getRandomUsername(rand));
 		return username;
 	}
 
 	public void setUsername(String name)
 	{
 		super.dataManager.set(NAME, name);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public SkinManager.SkinAvailableCallback getCallback()
+	{
+		return new SkinManager.SkinAvailableCallback()
+		{
+			@Override
+			public void skinAvailable(MinecraftProfileTexture.Type type, ResourceLocation location, MinecraftProfileTexture profileTexture)
+			{
+				switch(type)
+				{
+					case SKIN:
+						skin = location;
+						break;
+					default:
+						break;
+
+				}
+				setTextureAvailable(type);
+			}
+		};
+	}
+
+	@Override
+	public double getInterpolatedCapeX(float arg0)
+	{
+		return 0;
+	}
+
+	@Override
+	public double getInterpolatedCapeY(float arg0)
+	{
+		return 0;
+	}
+
+	@Override
+	public double getInterpolatedCapeZ(float arg0)
+	{
+		return 0;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean isTextureAvailable(MinecraftProfileTexture.Type type)
+	{
+		switch(type)
+		{
+			default:
+				return skinAvailable;
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void setTextureAvailable(MinecraftProfileTexture.Type type)
+	{
+		switch(type)
+		{
+			case SKIN:
+				skinAvailable = true;
+				break;
+			default:
+				break;
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public ResourceLocation getTexture(MinecraftProfileTexture.Type type)
+	{
+		switch(type)
+		{
+			case SKIN:
+				return skin;
+			default:
+				return null;
+		}
+	}
+
+	@Override
+	public boolean isProfileReady()
+	{
+		return this.profile != null;
 	}
 }
