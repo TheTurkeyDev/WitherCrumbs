@@ -23,3 +23,8 @@ usernamecache.json
 icon.png
 HeadCrumb Withers_Client.launch
 HeadCrumb Withers_Server.launch
+build/
+*.iml
+*.ipr
+*.iws
+out/

@@ -29,7 +29,7 @@ minecraft {
     replaceIn "WitherCrumbsCore.java"
     replaceIn "mcmod.info"
     
-    runDir = "run 1.9.4"
+    runDir = "run"
 	mappings = "snapshot_20160518"
 }
 
@@ -66,5 +66,11 @@ processResources
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': 'withercrumbs_at.cfg'
     }
 }

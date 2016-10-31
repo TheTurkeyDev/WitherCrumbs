@@ -20,8 +20,9 @@ public class ConfigLoader
 		config = new Configuration(new File(fileFolder + "/" + file.getName()));
 		config.load();
 
-		WitherCrumbSettings.dropNetherStar = config.getBoolean("DropsNetherStar", genCat, false, "Set to true if the Wither's from wither crumbs should drop nether stars.");
-		
+		WitherCrumbSettings.dropNetherStar = config.getBoolean("DropsNetherStar", genCat, WitherCrumbSettings.dropNetherStar, "Set to true if the Withers from WitherCrumbs should drop nether stars.");
+		WitherCrumbSettings.replaceVanillaWither = config.getBoolean("ReplaceVanillaWither", genCat, WitherCrumbSettings.replaceVanillaWither, "Set to true if normally spawned Withers should take on Headcrumbs skins.");
+
 		config.save();
 
 		File customWithers = new File(file.getParentFile().getAbsolutePath() + "/WitherCrumbs/CustomWithers.json");

@@ -17,11 +17,11 @@ import turkey.witherCrumbs.config.CustomWitherLoader;
 import turkey.witherCrumbs.entities.EntityHumanWither;
 import turkey.witherCrumbs.items.WitherCrumbsItems;
 import turkey.witherCrumbs.listeners.SkullPlacedEvent;
+import turkey.witherCrumbs.listeners.WitherSpawnHandler;
 import turkey.witherCrumbs.proxy.CommonProxy;
 
 @Mod(modid = WitherCrumbsCore.MODID, version = WitherCrumbsCore.VERSION, name = WitherCrumbsCore.NAME, dependencies = "required-after:headcrumbs")
-public class WitherCrumbsCore
-{
+public class WitherCrumbsCore {
 	public static final String MODID = "withercrumbs";
 	public static final String VERSION = "@version@";
 	public static final String NAME = "Wither Crumbs";
@@ -35,32 +35,30 @@ public class WitherCrumbsCore
 	public static Logger logger;
 
 	@EventHandler
-	public void init(FMLInitializationEvent event)
-	{
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Turkey2349");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
-		
-		WitherCrumbsItems.initItems();
-		
-		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
-	}
-
-	@EventHandler
-	public void load(FMLPreInitializationEvent event)
-	{
+	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile(), event.getSourceFile());
-		
+
 		EntityRegistry.registerModEntity(EntityHumanWither.class, "Wither_Crumb", 0, instance, 512, 1, true);
 
 		proxy.registerRenderings();
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event)
-	{
+	public void init(FMLInitializationEvent event) {
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Turkey2349");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
+
+		WitherCrumbsItems.initItems();
+
+		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
+		MinecraftForge.EVENT_BUS.register(new WitherSpawnHandler());
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
 		CustomWitherLoader.instance.loadCustomWithers();
 	}
 }
