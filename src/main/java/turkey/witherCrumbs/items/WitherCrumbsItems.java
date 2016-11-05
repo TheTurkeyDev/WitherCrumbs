@@ -12,7 +12,7 @@ public class WitherCrumbsItems
 	
 	public static void initItems()
 	{
-		GameRegistry.register(crumbStar = new CrumbStar("Crumb_Star"));
+		GameRegistry.register(crumbStar = new CrumbStar("crumb_star"));
 	}
 	
 	public static void registerItems()

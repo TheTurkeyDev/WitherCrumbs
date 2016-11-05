@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import turkey.witherCrumbs.config.ConfigLoader;
 import turkey.witherCrumbs.config.CustomWitherLoader;
 import turkey.witherCrumbs.entities.EntityHumanWither;
@@ -55,6 +56,11 @@ public class WitherCrumbsCore {
 
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
 		MinecraftForge.EVENT_BUS.register(new WitherSpawnHandler());
+		
+		if(event.getSide() == Side.CLIENT)
+		{
+			WitherCrumbsItems.registerItems();
+		}
 	}
 
 	@EventHandler

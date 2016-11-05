@@ -1,8 +1,6 @@
 package turkey.witherCrumbs.entities.models;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBoat;
-import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

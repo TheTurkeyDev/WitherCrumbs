@@ -19,7 +19,7 @@ public class CrumbStar extends ItemFood
 		super(0, 0, false);
 		this.name = name;
 		this.setUnlocalizedName(name);
-		this.setRegistryName(WitherCrumbsCore.MODID + ":" + name.toLowerCase());
+		this.setRegistryName(WitherCrumbsCore.MODID, name);
 		this.setCreativeTab(Headcrumbs.tab);
 	}
 
