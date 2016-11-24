@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.item.ItemStack;
-import turkey.witherCrumbs.items.WitherCrumbsItems;
 
 public class CelebrityWitherRegistry
 {
@@ -21,6 +20,6 @@ public class CelebrityWitherRegistry
 	{
 		if(info.containsKey(name))
 			return info.get(name);
-		return addCelebrityInfo(name, new ItemStack(WitherCrumbsItems.crumbStar, 1), false);
+		return null;
 	}
 }

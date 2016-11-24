@@ -10,13 +10,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import turkey.witherCrumbs.WitherCrumbsCore;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
 import turkey.witherCrumbs.items.WitherCrumbsItems;
@@ -46,7 +44,7 @@ public class CustomWitherLoader
 			WitherCrumbsCore.logger.log(Level.ERROR, "Parse Error: " + e.getMessage());
 			return;
 		}
-		
+
 		if(fileJson.isJsonNull())
 			return;
 
@@ -59,7 +57,7 @@ public class CustomWitherLoader
 
 			if(info.has("DropItem"))
 			{
-				String jsonRaw = info.get("DropItem").getAsString();
+				String jsonRaw = info.get("DropItem").getAsJsonObject().toString();
 				try
 				{
 					String jsonEdited = this.removedKeyQuotes(jsonRaw);
@@ -72,14 +70,6 @@ public class CustomWitherLoader
 					else
 					{
 						NBTTagCompound nbtcomp = (NBTTagCompound) nbtbase;
-						String idString = nbtcomp.getString("id");
-						if(idString.contains(":"))
-						{
-							String mod = idString.substring(0, idString.indexOf(":"));
-							String itemName = idString.substring(idString.indexOf(":") + 1);
-							int id = Item.getIdFromItem(Item.REGISTRY.getObject(new ResourceLocation(mod, itemName)));
-							nbtcomp.setInteger("id", id);
-						}
 						stack = ItemStack.loadItemStackFromNBT(nbtcomp);
 						if(stack == null)
 						{
@@ -99,6 +89,7 @@ public class CustomWitherLoader
 				hasCustomSounds = info.get("HasCustomSounds").getAsBoolean();
 			}
 
+			WitherCrumbsCore.logger.log(Level.INFO, "Added custom WitherCrumb drop for " + name);
 			CelebrityWitherRegistry.addCelebrityInfo(name, stack, hasCustomSounds);
 		}
 	}

@@ -2,6 +2,8 @@ package turkey.witherCrumbs;
 
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,13 +18,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import turkey.witherCrumbs.config.ConfigLoader;
 import turkey.witherCrumbs.config.CustomWitherLoader;
 import turkey.witherCrumbs.entities.EntityHumanWither;
+import turkey.witherCrumbs.info.CelebrityWitherRegistry;
 import turkey.witherCrumbs.items.WitherCrumbsItems;
 import turkey.witherCrumbs.listeners.SkullPlacedEvent;
 import turkey.witherCrumbs.listeners.WitherSpawnHandler;
 import turkey.witherCrumbs.proxy.CommonProxy;
 
 @Mod(modid = WitherCrumbsCore.MODID, version = WitherCrumbsCore.VERSION, name = WitherCrumbsCore.NAME, dependencies = "required-after:headcrumbs")
-public class WitherCrumbsCore {
+public class WitherCrumbsCore
+{
 	public static final String MODID = "withercrumbs";
 	public static final String VERSION = "@version@";
 	public static final String NAME = "Wither Crumbs";
@@ -36,7 +40,8 @@ public class WitherCrumbsCore {
 	public static Logger logger;
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event)
+	{
 		logger = event.getModLog();
 		ConfigLoader.loadConfigSettings(event.getSuggestedConfigurationFile(), event.getSourceFile());
 
@@ -46,7 +51,8 @@ public class WitherCrumbsCore {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event)
+	{
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Turkey2349");
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
@@ -56,7 +62,7 @@ public class WitherCrumbsCore {
 
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
 		MinecraftForge.EVENT_BUS.register(new WitherSpawnHandler());
-		
+
 		if(event.getSide() == Side.CLIENT)
 		{
 			WitherCrumbsItems.registerItems();
@@ -64,7 +70,11 @@ public class WitherCrumbsCore {
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(FMLPostInitializationEvent event)
+	{
 		CustomWitherLoader.instance.loadCustomWithers();
+		ItemStack stack = new ItemStack(Items.CAKE);
+		stack.setStackDisplayName("Happy Birthday Darkosto!");
+		CelebrityWitherRegistry.addCelebrityInfo("Darkosto", stack, false);
 	}
 }
