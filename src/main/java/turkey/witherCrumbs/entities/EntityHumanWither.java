@@ -98,7 +98,7 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		TextComponentString textComponent = profile != null ? new TextComponentString(profile.getName()) : new TextComponentString("WitherCrumb");
+		TextComponentString textComponent = profile != null ? new TextComponentString("- " + profile.getName() + " -") : new TextComponentString("- WitherCrumb - ");
 		textComponent.getStyle().setHoverEvent(this.getHoverEvent());
 		textComponent.getStyle().setInsertion(this.getCachedUniqueIdString());
 		return textComponent;
