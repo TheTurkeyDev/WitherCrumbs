@@ -21,6 +21,8 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import turkey.witherCrumbs.config.WitherCrumbSettings;
 import turkey.witherCrumbs.info.CelebrityWitherInfo;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
@@ -137,6 +139,7 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public SkinManager.SkinAvailableCallback getCallback()
 	{
 		return new SkinManager.SkinAvailableCallback()
