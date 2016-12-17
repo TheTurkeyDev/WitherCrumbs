@@ -2,9 +2,12 @@ package turkey.witherCrumbs;
 
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -39,6 +42,12 @@ public class WitherCrumbsCore
 
 	public static Logger logger;
 
+	// @formatter:off
+	private static String[] mhfNames = {"MHF_Herobrine", "MHF_Enderman", "MHF_Sheep", "MHF_Cow", "MHF_Villager",
+			"MHF_Blaze", "MHF_MushroomCow", "MHF_Slime", "MHF_Spider", "MHF_Chicken", "MHF_Ghast", "MHF_LavaSlime",
+			"MHF_Squid", "MHF_PigZombie", "MHF_Pig", "MHF_CaveSpider", "MHF_Golem", "MHF_Ocelot"};
+	// @formatter:on
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -53,11 +62,6 @@ public class WitherCrumbsCore
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Turkey2349");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
-		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
-
 		WitherCrumbsItems.initItems();
 
 		MinecraftForge.EVENT_BUS.register(new SkullPlacedEvent());
@@ -67,6 +71,17 @@ public class WitherCrumbsCore
 		{
 			WitherCrumbsItems.registerItems();
 		}
+
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Turkey2349");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "KiwiFails");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
+		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
+
+		for(String name : mhfNames)
+		{
+			FMLInterModComms.sendMessage("headcrumbs", "add-username", name);
+			CelebrityWitherRegistry.addCelebrityInfo(name, new ItemStack(WitherCrumbsItems.crumbStar), name.replace("MHF_", "") + " Wither");
+		}
 	}
 
 	@EventHandler
@@ -75,6 +90,9 @@ public class WitherCrumbsCore
 		CustomWitherLoader.instance.loadCustomWithers();
 		ItemStack stack = new ItemStack(Items.CAKE);
 		stack.setStackDisplayName("Happy Birthday Darkosto!");
-		CelebrityWitherRegistry.addCelebrityInfo("Darkosto", stack, false);
+		CelebrityWitherRegistry.addCelebrityInfo("Darkosto", stack);
+
+		if(Loader.isModLoaded("chancecubes"))
+			CelebrityWitherRegistry.addCelebrityInfo("Turkey2349", new ItemStack(Block.REGISTRY.getObject(new ResourceLocation("chancecubes", "chance_Icosahedron"))));
 	}
 }

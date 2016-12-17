@@ -8,7 +8,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import turkey.witherCrumbs.entities.EntityHumanWither;
 import turkey.witherCrumbs.entities.renderers.RenderHumanWither;
-import turkey.witherCrumbs.items.WitherCrumbsItems;
 
 public class ClientProxy extends CommonProxy
 {

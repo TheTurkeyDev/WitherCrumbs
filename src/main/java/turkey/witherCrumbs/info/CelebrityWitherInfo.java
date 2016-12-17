@@ -6,28 +6,32 @@ public class CelebrityWitherInfo
 {
 	private String celebrityKey = "";
 	private ItemStack dropStack;
-	private boolean hasCustomSounds = false;
-	
-	
-	public CelebrityWitherInfo(String name, ItemStack dropStack, boolean customSounds)
+	private String displayName;
+
+	public CelebrityWitherInfo(String name, ItemStack dropStack)
+	{
+		this(name, dropStack, name);
+	}
+
+	public CelebrityWitherInfo(String name, ItemStack dropStack, String displayName)
 	{
 		this.celebrityKey = name;
 		this.dropStack = dropStack;
-		this.hasCustomSounds = customSounds;
+		this.displayName = displayName;
 	}
-	
+
 	public String getCelebrityName()
 	{
 		return this.celebrityKey;
 	}
-	
+
 	public ItemStack getDropStack()
 	{
-		return this.dropStack;
+		return this.dropStack.copy();
 	}
-	
-	public boolean hasCustomSounds()
+
+	public String getDisplayName()
 	{
-		return this.hasCustomSounds;
+		return this.displayName;
 	}
 }

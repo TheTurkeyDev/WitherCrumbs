@@ -53,7 +53,6 @@ public class CustomWitherLoader
 			JsonObject info = witherUser.getValue().getAsJsonObject();
 			String name = witherUser.getKey();
 			ItemStack stack = new ItemStack(WitherCrumbsItems.crumbStar, 1);
-			boolean hasCustomSounds = false;
 
 			if(info.has("DropItem"))
 			{
@@ -84,13 +83,8 @@ public class CustomWitherLoader
 				}
 			}
 
-			if(info.has("HasCustomSounds"))
-			{
-				hasCustomSounds = info.get("HasCustomSounds").getAsBoolean();
-			}
-
 			WitherCrumbsCore.logger.log(Level.INFO, "Added custom WitherCrumb drop for " + name);
-			CelebrityWitherRegistry.addCelebrityInfo(name, stack, hasCustomSounds);
+			CelebrityWitherRegistry.addCelebrityInfo(name, stack);
 		}
 	}
 

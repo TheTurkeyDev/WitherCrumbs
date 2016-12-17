@@ -1,7 +1,5 @@
 package turkey.witherCrumbs.entities;
 
-import javax.annotation.Nullable;
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
@@ -37,6 +35,8 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	private ResourceLocation skinTexture;
 
 	private boolean isRealWither;
+
+	private String displayName = "";
 
 	public EntityHumanWither(World world)
 	{
@@ -100,7 +100,7 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		TextComponentString textComponent = profile != null ? new TextComponentString("- " + profile.getName() + " -") : new TextComponentString("- WitherCrumb - ");
+		TextComponentString textComponent = displayName != "" ? new TextComponentString(displayName) : new TextComponentString("WitherCrumb");
 		textComponent.getStyle().setHoverEvent(this.getHoverEvent());
 		textComponent.getStyle().setInsertion(this.getCachedUniqueIdString());
 		return textComponent;
@@ -173,13 +173,12 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 		return isProfileReady;
 	}
 
-	@Nullable
 	@Override
 	public GameProfile getProfile()
 	{
 		if(profile == null)
 		{
-			profile = new GameProfile(null, dataManager.get(NAME));
+			this.setProfile(new GameProfile(null, dataManager.get(NAME)));
 			ThreadedProfileFiller.updateProfile(this);
 		}
 		return profile;
@@ -189,6 +188,11 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	public void setProfile(GameProfile profile)
 	{
 		this.profile = profile;
+		if(this.profile != null)
+		{
+			CelebrityWitherInfo info = CelebrityWitherRegistry.getCelebrityInfo(this.profile.getName());
+			this.displayName = info != null ? info.getDisplayName() : this.profile.getName();
+		}
 		this.bossInfo.setName(getDisplayName());
 		isProfileReady = true;
 	}
