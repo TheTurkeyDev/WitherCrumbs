@@ -2,18 +2,20 @@ package turkey.witherCrumbs.entities;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-
 import ganymedes01.headcrumbs.api.IHumanEntity;
 import ganymedes01.headcrumbs.entity.EntityHuman;
 import ganymedes01.headcrumbs.utils.ThreadedProfileFiller;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraft.util.text.ITextComponent;
@@ -58,14 +60,27 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
 	{
+		EntityItem entityItem = this.dropItem(Items.NETHER_STAR, 1);
+
 		if(isRealWither || WitherCrumbSettings.dropNetherStar)
 		{
-			this.dropItem(Items.NETHER_STAR, 1);
+			if (entityItem != null)
+			{
+				entityItem.setNoDespawn();
+			}
 		}
 
 		CelebrityWitherInfo info = CelebrityWitherRegistry.getCelebrityInfo(this.profile.getName());
 		ItemStack stack = info == null ? new ItemStack(WitherCrumbsItems.crumbStar) : info.getDropStack();
 		this.entityDropItem(stack, 0);
+
+		if (!this.worldObj.isRemote)
+		{
+			for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().expand(50.0D, 100.0D, 50.0D)))
+			{
+				entityplayer.addStat(AchievementList.KILL_WITHER);
+			}
+		}
 	}
 
 	@Override
