@@ -1,25 +1,29 @@
 package turkey.witherCrumbs.items;
 
+import com.theprogrammingturkey.gobblecore.items.IItemHandler;
+import com.theprogrammingturkey.gobblecore.items.ItemLoader;
+
+import ganymedes01.headcrumbs.Headcrumbs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import turkey.witherCrumbs.WitherCrumbsCore;
 
-public class WitherCrumbsItems
+public class WitherCrumbsItems implements IItemHandler
 {
 	public static CrumbStar crumbStar;
-	
-	public static void initItems()
+
+	@Override
+	public void registerItems(ItemLoader loader)
 	{
-		GameRegistry.register(crumbStar = new CrumbStar("crumb_star"));
+		loader.setCreativeTab(Headcrumbs.tab);
+		loader.registerItem(crumbStar = new CrumbStar());
+
 	}
-	
-	public static void registerItems()
+
+	@Override
+	public void registerModels(ItemLoader loader)
 	{
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-		mesher.register(WitherCrumbsItems.crumbStar, 0, new ModelResourceLocation(WitherCrumbsCore.MODID + ":" + WitherCrumbsItems.crumbStar.getItemName(), "inventory"));
+		loader.registerItemModel(mesher, crumbStar, 0);
 	}
 }
-	

@@ -1,26 +1,20 @@
 package turkey.witherCrumbs.items;
 
-import ganymedes01.headcrumbs.Headcrumbs;
+import com.theprogrammingturkey.gobblecore.items.BaseItemFood;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import turkey.witherCrumbs.WitherCrumbsCore;
 
-public class CrumbStar extends ItemFood
+public class CrumbStar extends BaseItemFood
 {
-	private String name;
-	public CrumbStar(String name)
+	public CrumbStar()
 	{
-		super(0, 0, false);
-		this.name = name;
-		this.setUnlocalizedName(name);
-		this.setRegistryName(WitherCrumbsCore.MODID, name);
-		this.setCreativeTab(Headcrumbs.tab);
+		super("crumb_star", 0, 0, false);
 	}
 
 	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
@@ -36,10 +30,5 @@ public class CrumbStar extends ItemFood
 	public boolean hasEffect(ItemStack stack)
 	{
 		return true;
-	}
-
-	public String getItemName()
-	{
-		return name;
 	}
 }
