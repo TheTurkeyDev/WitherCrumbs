@@ -11,6 +11,7 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven-publish'
 
 /*
 // for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
@@ -70,5 +71,28 @@ processResources
 jar {
     manifest {
         attributes 'FMLAT': 'withercrumbs_at.cfg'
+    }
+}
+
+build.dependsOn sourceJar
+
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+        	artifactId 'WitherCrumbs'
+            from components.java
+
+            artifact sourceJar
+        }
+    }
+
+    repositories {
+        if (project.hasProperty('mavendir')) {
+            maven { url mavendir }
+        }
+        else{
+        	logger.error('Failed to find maven directory')
+        }
     }
 }
