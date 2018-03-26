@@ -53,7 +53,6 @@ public class CustomWitherLoader
 			JsonObject info = witherUser.getValue().getAsJsonObject();
 			String name = witherUser.getKey();
 			ItemStack stack = new ItemStack(WitherCrumbsItems.crumbStar, 1);
-			boolean hasCustomSounds = false;
 
 			if(info.has("DropItem"))
 			{
@@ -70,12 +69,9 @@ public class CustomWitherLoader
 					else
 					{
 						NBTTagCompound nbtcomp = (NBTTagCompound) nbtbase;
-						stack = ItemStack.loadItemStackFromNBT(nbtcomp);
-						if(stack == null)
-						{
-							WitherCrumbsCore.logger.log(Level.ERROR, "Failed to create an itemstack from the JSON of: " + jsonEdited + " and the NBT of: " + ((NBTTagCompound) nbtbase).toString());
-							continue;
-						}
+						stack = new ItemStack(nbtcomp);
+						WitherCrumbsCore.logger.log(Level.ERROR, "Failed to create an itemstack from the JSON of: " + jsonEdited + " and the NBT of: " + ((NBTTagCompound) nbtbase).toString());
+						continue;
 					}
 				} catch(NBTException e1)
 				{
@@ -84,13 +80,8 @@ public class CustomWitherLoader
 				}
 			}
 
-			if(info.has("HasCustomSounds"))
-			{
-				hasCustomSounds = info.get("HasCustomSounds").getAsBoolean();
-			}
-
 			WitherCrumbsCore.logger.log(Level.INFO, "Added custom WitherCrumb drop for " + name);
-			CelebrityWitherRegistry.addCelebrityInfo(name, stack, hasCustomSounds);
+			CelebrityWitherRegistry.addCelebrityInfo(name, stack);
 		}
 	}
 

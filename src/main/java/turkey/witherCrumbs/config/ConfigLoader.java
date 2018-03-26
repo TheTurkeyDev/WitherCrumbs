@@ -13,7 +13,7 @@ public class ConfigLoader
 	public static Configuration config;
 	public static final String genCat = "General Settings";
 
-	public static void loadConfigSettings(File file, File resources)
+	public static void loadConfigSettings(File file)
 	{
 		File fileFolder = new File(file.getParentFile().getAbsolutePath() + "/WitherCrumbs");
 		fileFolder.mkdirs();

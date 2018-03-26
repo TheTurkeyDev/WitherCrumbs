@@ -3,16 +3,19 @@ package turkey.witherCrumbs.items;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import turkey.witherCrumbs.WitherCrumbsCore;
 
 public class WitherCrumbsItems
 {
 	public static CrumbStar crumbStar;
 	
-	public static void initItems()
+	@SubscribeEvent
+	public void onItemRegistry(RegistryEvent.Register<Item> e)
 	{
-		GameRegistry.register(crumbStar = new CrumbStar("crumb_star"));
+		e.getRegistry().register(crumbStar = new CrumbStar("crumb_star"));
 	}
 	
 	public static void registerItems()

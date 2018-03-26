@@ -6,14 +6,14 @@ import com.google.common.base.Predicate;
 import com.mojang.authlib.GameProfile;
 
 import ganymedes01.headcrumbs.entity.EntityHuman;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.block.state.pattern.BlockStateMatcher;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.stats.AchievementList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.EnumFacing;
@@ -25,49 +25,59 @@ import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import turkey.witherCrumbs.entities.EntityHumanWither;
 
-public class SkullPlacedEvent {
+public class SkullPlacedEvent
+{
 
 	private static BlockPattern witherPattern;
 
-	private static BlockPattern getWitherPattern() {
-		if (witherPattern == null) {
-			witherPattern = FactoryBlockPattern.start().aisle(new String[]{"^^^", "###", "~#~"})
-					.where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.SOUL_SAND)))
-					.where('^', IS_SAME_SKULL)
-					.where('~', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.AIR))).build();
+	private static BlockPattern getWitherPattern()
+	{
+		if(witherPattern == null)
+		{
+			witherPattern = FactoryBlockPattern.start().aisle(new String[] { "^^^", "###", "~#~" }).where('#', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.SOUL_SAND))).where('^', IS_SAME_SKULL).where('~', BlockWorldState.hasState(BlockStateMatcher.forBlock(Blocks.AIR))).build();
 		}
 		return witherPattern;
 	}
 
-	private static final Predicate<BlockWorldState> IS_SAME_SKULL = new Predicate<BlockWorldState>() {
-		public boolean apply(@Nullable BlockWorldState blockWorldState) {
+	private static final Predicate<BlockWorldState> IS_SAME_SKULL = new Predicate<BlockWorldState>()
+	{
+		public boolean apply(@Nullable BlockWorldState blockWorldState)
+		{
 			return blockWorldState.getBlockState() != null && blockWorldState.getBlockState().getBlock() == Blocks.SKULL && blockWorldState.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockWorldState.getTileEntity()).getSkullType() == 3;
 		}
 	};
 
 	@SubscribeEvent
-	public void onSkullPlacedEvent(PlaceEvent event) {
-		if (event.getState().getBlock() != Blocks.SKULL) {
+	public void onSkullPlacedEvent(PlaceEvent event)
+	{
+		if(event.getState().getBlock() != Blocks.SKULL)
+		{
 			return;
 		}
 
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity instanceof TileEntitySkull) {
+		if(tileEntity instanceof TileEntitySkull)
+		{
 			TileEntitySkull tileSkull = (TileEntitySkull) tileEntity;
-			if (tileSkull.getSkullType() == 3 && pos.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isRemote) {
+			if(tileSkull.getSkullType() == 3 && pos.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isRemote)
+			{
 				BlockPattern witherPattern = getWitherPattern();
 				BlockPattern.PatternHelper patternHelper = witherPattern.match(world, pos);
-				if (patternHelper != null) {
+				if(patternHelper != null)
+				{
 					GameProfile profile = tileSkull.getPlayerProfile();
-					for (int i = 0; i < 3; i++) {
+					for(int i = 0; i < 3; i++)
+					{
 						BlockWorldState blockWorldState = patternHelper.translateOffset(i, 0, 0);
 						world.setBlockState(blockWorldState.getPos(), blockWorldState.getBlockState().withProperty(BlockSkull.NODROP, true), 2);
 					}
 
-					for (int i = 0; i < witherPattern.getPalmLength(); i++) {
-						for (int j = 0; j < witherPattern.getThumbLength(); j++) {
+					for(int i = 0; i < witherPattern.getPalmLength(); i++)
+					{
+						for(int j = 0; j < witherPattern.getThumbLength(); j++)
+						{
 							BlockWorldState blockWorldState = patternHelper.translateOffset(i, j, 0);
 							world.setBlockState(blockWorldState.getPos(), Blocks.AIR.getDefaultState(), 2);
 						}
@@ -81,20 +91,24 @@ public class SkullPlacedEvent {
 					entityWither.renderYawOffset = patternHelper.getForwards().getAxis() == EnumFacing.Axis.X ? 0f : 90f;
 					entityWither.ignite();
 
-					for (EntityPlayer entityplayer : world.getEntitiesWithinAABB(EntityPlayer.class, entityWither.getEntityBoundingBox().expandXyz(50))) {
-						entityplayer.addStat(AchievementList.SPAWN_WITHER);
+					for(EntityPlayerMP entityplayermp : world.getEntitiesWithinAABB(EntityPlayerMP.class, entityWither.getEntityBoundingBox().expandXyz(50.0D)))
+					{
+						CriteriaTriggers.field_192133_m.func_192229_a(entityplayermp, entityWither);
 					}
 
 					world.spawnEntityInWorld(entityWither);
 
-					for (int i = 0; i < 120; i++) {
+					for(int i = 0; i < 120; i++)
+					{
 						world.spawnParticle(EnumParticleTypes.SNOWBALL, (double) particlePos.getX() + world.rand.nextDouble(), (double) (particlePos.getY() - 2) + world.rand.nextDouble() * 3.9, (double) particlePos.getZ() + world.rand.nextDouble(), 0.0, 0.0, 0.0);
 					}
 
-					for (int i = 0; i < witherPattern.getPalmLength(); i++) {
-						for (int j = 0; j < witherPattern.getThumbLength(); j++) {
+					for(int i = 0; i < witherPattern.getPalmLength(); i++)
+					{
+						for(int j = 0; j < witherPattern.getThumbLength(); j++)
+						{
 							BlockWorldState blockWorldState = patternHelper.translateOffset(i, j, 0);
-							world.notifyNeighborsRespectDebug(blockWorldState.getPos(), Blocks.AIR);
+							world.notifyNeighborsRespectDebug(blockWorldState.getPos(), Blocks.AIR, false);
 						}
 					}
 				}
