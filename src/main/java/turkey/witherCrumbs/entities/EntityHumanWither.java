@@ -61,11 +61,9 @@ public class EntityHumanWither extends EntityWither implements IHumanEntity
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
 	{
-		EntityItem entityItem = this.dropItem(Items.NETHER_STAR, 1);
-
 		if(isRealWither || WitherCrumbSettings.dropNetherStar)
 		{
-			this.dropItem(Items.NETHER_STAR, 1);
+			EntityItem entityItem = this.dropItem(Items.NETHER_STAR, 1);
 			if(entityItem != null)
 			{
 				entityItem.setNoDespawn();
