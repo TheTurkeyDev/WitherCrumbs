@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import turkey.witherCrumbs.config.ConfigLoader;
 import turkey.witherCrumbs.config.CustomWitherLoader;
+import turkey.witherCrumbs.config.WitherCrumbSettings;
 import turkey.witherCrumbs.entities.EntityHumanWither;
 import turkey.witherCrumbs.info.CelebrityWitherRegistry;
 import turkey.witherCrumbs.items.WitherCrumbsItems;
@@ -76,10 +77,13 @@ public class WitherCrumbsCore
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "SlothMonster_");
 		FMLInterModComms.sendMessage("headcrumbs", "add-username", "Darkosto");
 
-		for(String name : mhfNames)
+		if(WitherCrumbSettings.specialVanillaHeads)
 		{
-			FMLInterModComms.sendMessage("headcrumbs", "add-username", name);
-			CelebrityWitherRegistry.addCelebrityInfo(name, new ItemStack(WitherCrumbsItems.crumbStar), name.replace("MHF_", "") + " Wither");
+			for(String name : mhfNames)
+			{
+				FMLInterModComms.sendMessage("headcrumbs", "add-username", name);
+				CelebrityWitherRegistry.addCelebrityInfo(name, new ItemStack(WitherCrumbsItems.crumbStar), name.replace("MHF_", "") + " Wither");
+			}
 		}
 	}
 

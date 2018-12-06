@@ -22,6 +22,7 @@ public class ConfigLoader
 
 		WitherCrumbSettings.dropNetherStar = config.getBoolean("DropsNetherStar", genCat, WitherCrumbSettings.dropNetherStar, "Set to true if the Withers from WitherCrumbs should drop nether stars.");
 		WitherCrumbSettings.replaceVanillaWither = config.getBoolean("ReplaceVanillaWither", genCat, WitherCrumbSettings.replaceVanillaWither, "Set to true if normally spawned Withers should take on Headcrumbs skins.");
+		WitherCrumbSettings.specialVanillaHeads = config.getBoolean("SpecialVanillaHeads", genCat, WitherCrumbSettings.specialVanillaHeads, "These are the mods and heads that start with MHF such as MHF_Slime and MHF_Golem.");
 
 		config.save();
 
